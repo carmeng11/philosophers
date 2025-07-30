@@ -8,7 +8,7 @@ void	print_status(t_philo *philo, char *status_msg)
 	// Solo imprimir si el juego no ha terminado
 	if (!is_game_over(philo->data))
 	{
-		current_time = get_current_time_ms() - philo->data->start_time;
+		current_time = get_current_time_ms() - philo->data->start_time;//El mensaje saca el tiempo actual menos el tiempo de inicio del juego, para que sea relativo al inicio del juego
 		printf("%lld %d %s\n", current_time, philo->id, status_msg);
 	}
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -56,7 +56,8 @@ void	*philo_routine(void *arg)
 	t_philo *philo = (t_philo *)arg;
 
 	if (philo->id % 2 == 0)
-		ft_usleep(1);
+		ft_usleep(1);	// Para evitar que todos los filósofos intenten comer al mismo tiempo
+		//ft_usleep(philo->data->time_to_eat / 2); // Para evitar que todos los filósofos intenten comer al mismo tiempo
 	if (philo->data->num_philo == 1)
 	{
 		handle_one_philo(philo);

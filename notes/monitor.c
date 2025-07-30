@@ -1,5 +1,6 @@
 #include "philo.h"
-
+ //Función estática que retorna 1 si detecta la muerte de un filósofo, 
+ //0 si todos están vivos.
 static int check_philosopher_death(t_data *data)
 {
     int i = 0;
@@ -8,19 +9,19 @@ static int check_philosopher_death(t_data *data)
 
     while (i < data->num_philo)
     {
-        current_time = get_current_time_ms();
+        current_time = get_current_time_ms();//tiempo actual que se obtiene para cada verificación
         
         // Leer last_meal_time de forma segura
         pthread_mutex_lock(&data->philosophers[i].meal_lock);
-        last_meal = data->philosophers[i].last_meal_time;
+        last_meal = data->philosophers[i].last_meal_time;//copia local del tiempo de la última comida
         pthread_mutex_unlock(&data->philosophers[i].meal_lock);
         
         // Verificar si el filósofo ha muerto
         if (current_time - last_meal > data->time_to_die)
         {
-            set_game_over(data);
-            print_death(&data->philosophers[i]);
-            return (1);
+            set_game_over(data);//marca is_game_over a 1
+            print_death(&data->philosophers[i]);//imprime el mensaje de muerte
+            return (1);//sale del monitor
         }
         i++;
     }
@@ -79,3 +80,55 @@ void *monitor_routine(void *arg)
     
     return (NULL);
 }
+
+Problema sin mutex:
+Imagina esta situación SIN el mutex:
+
+Monitor lee last_meal_time = 1000ms
+Justo en ese momento, el filósofo termina de comer y actualiza last_meal_time = 2000ms
+Monitor calcula muerte basándose en el valor obsoleto 1000ms
+FALSO POSITIVO - declara muerto a un filósofo que acaba de comer
+
+Condición de carrera específica:
+c// HILO FILÓSOFO (en función eat):
+pthread_mutex_lock(&philo->meal_lock);
+philo->last_meal_time = get_current_time_ms();  // ← ESCRITURA
+pthread_mutex_unlock(&philo->meal_lock);
+
+// HILO MONITOR (aquí):
+// Sin mutex: podría leer JUSTO cuando el filósofo está escribiendo
+last_meal = data->philosophers[i].last_meal_time; // ← LECTURA
+c        last_meal = data->philosophers[i].last_meal_time;
+Línea 8: Lee de forma atómica y segura el tiempo de última comida. Al estar protegido por el mutex, garantiza que:
+
+O lee el valor antes de que el filósofo lo actualice
+O lee el valor después de que el filósofo lo actualice
+NUNCA lee un valor en estado intermedio o inconsistente
+
+c        pthread_mutex_unlock(&data->philosophers[i].meal_lock);
+Línea 9: Libera inmediatamente el mutex. El tiempo bloqueado es mínimo (solo una lectura).
+c        // Verificar si el filósofo ha muerto
+        if (current_time - last_meal > data->time_to_die)
+        {
+Línea 10: Calcula si ha pasado más tiempo del permitido desde la última comida. Ahora usa la copia local last_meal (ya no necesita el mutex).
+c            set_game_over(data);//marca is_game_over a 1
+Línea 11: Marca el fin del juego para que todos los hilos terminen ordenadamente.
+c            print_death(&data->philosophers[i]);//imprime el mensaje de muerte
+Línea 12: Imprime el mensaje de muerte del filósofo que murió de hambre.
+c            return (1);//sale del monitor
+Línea 13: Retorna 1 indicando que se detectó una muerte, el monitor puede terminar.
+c        }
+        i++;
+    }
+    return (0);
+Líneas 14-16: Si ningún filósofo murió, incrementa el contador y continúa. Al final retorna 0 (todos vivos).
+Resumen del meal_lock:
+El meal_lock es esencial porque:
+
+Protege lecturas concurrentes - Evita leer valores inconsistentes
+Sincroniza con la función eat() - Garantiza que la lectura sea atómica
+Previene falsos positivos - Un filósofo no puede morir "accidentalmente" por datos obsoletos
+Mantiene la integridad temporal - El tiempo de muerte se calcula con datos precisos
+
+Sin este mutex, podrías tener muertes fantasma donde filósofos sanos son declarados muertos por condiciones de carrera.
+¿Te queda claro ahora por qué es fundamental el meal_lock en esta función?ReintentarClaude aún no tiene la capacidad de ejecutar el código que genera.Claude puede cometer errores. Por favor, verifique las respuestas. Sonnet 4
