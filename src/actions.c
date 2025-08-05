@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:06:58 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/30 20:18:42 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:12:20 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,25 @@ void	eat(t_philo *philo)
 	ft_usleep(philo->data->time_to_eat);
 }
 
+// void	sleep_and_think(t_philo *philo)
+// {
+// 	print_status(philo, SLEEPING);
+// 	usleep(philo->data->time_to_sleep * 1000);
+// 	//ft_usleep(philo->data->time_to_sleep);
+// 	print_status(philo, THINKING);
+// }
+
 void	sleep_and_think(t_philo *philo)
 {
 	print_status(philo, SLEEPING);
-	usleep(philo->data->time_to_sleep * 1000);
-	//ft_usleep(philo->data->time_to_sleep);
+	ft_usleep(philo->data->time_to_sleep);  // Cambiar esta línea
 	print_status(philo, THINKING);
+	
+	// Agregar espera inteligente para casos impares
+	if (philo->data->num_philo % 2 != 0)
+	{
+		long t_think = philo->data->time_to_eat * 2 - philo->data->time_to_sleep;
+		if (t_think > 0)
+			ft_usleep(t_think / 2);  // Ajuste más conservador que 0.42
+	}
 }

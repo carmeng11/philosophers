@@ -23,7 +23,6 @@ void	print_death(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-#include "philo.h"
 
 static void	handle_one_philo(t_philo *philo)
 {
@@ -51,13 +50,30 @@ static void	philo_loop(t_philo *philo)
 	}
 }
 
+// void	*philo_routine(void *arg)
+// {
+// 	t_philo *philo = (t_philo *)arg;
+
+// 	if (philo->id % 2 == 0)
+// 		ft_usleep(1);	// Para evitar que todos los filósofos intenten comer al mismo tiempo
+// 		//ft_usleep(philo->data->time_to_eat / 2); // Para evitar que todos los filósofos intenten comer al mismo tiempo
+// 	if (philo->data->num_philo == 1)
+// 	{
+// 		handle_one_philo(philo);
+// 		return (NULL);
+// 	}
+// 	philo_loop(philo);
+// 	return (NULL);
+// }
+
 void	*philo_routine(void *arg)
 {
 	t_philo *philo = (t_philo *)arg;
 
+	// Mejor sincronización inicial
 	if (philo->id % 2 == 0)
-		ft_usleep(1);	// Para evitar que todos los filósofos intenten comer al mismo tiempo
-		//ft_usleep(philo->data->time_to_eat / 2); // Para evitar que todos los filósofos intenten comer al mismo tiempo
+		ft_usleep(philo->data->time_to_eat / 2);  // Más tiempo para pares
+	
 	if (philo->data->num_philo == 1)
 	{
 		handle_one_philo(philo);

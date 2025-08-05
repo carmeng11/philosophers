@@ -1,14 +1,11 @@
 # Esquema Detallado - Proyecto de los Filósofos viene de philo_corregido, esta es al versión 2
-Este esquema te muestra el flujo completo del programa de los filósofos. Las partes más importantes a entender son:
+Las partes más importantes a entender son:
 
 La sincronización: Cada tipo de mutex tiene un propósito específico y protege diferentes recursos compartidos.
 La prevención de deadlock: El truco está en el orden de toma de tenedores por dirección de memoria en take_forks().
 El monitor: Es un hilo separado que constantemente verifica las dos condiciones de terminación del programa.
 La rutina del filósofo: Es el ciclo infinito que cada filósofo ejecuta hasta que el juego termine.
 
-¿Hay alguna función específica o parte del flujo que te gustaría que explique con más detalle? Por ejemplo, 
-puedo profundizar más en cómo funciona la prevención de deadlock o la sincronización entre hilos.ReintentarClaude 
-puede cometer errores. Por favor, verifique las respuestas. Sonnet 4
 
 ## 1. FUNCIÓN MAIN (Punto de entrada)
 

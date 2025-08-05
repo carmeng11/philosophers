@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:09:47 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/28 21:12:07 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:14:16 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,21 @@ static int	check_all_philosophers_fed(t_data *data)
 	return (0);
 }
 
+// void	*monitor_routine(void *arg)
+// {
+// 	t_data  *data = (t_data *)arg;
+
+// 	while (!is_game_over(data))
+// 	{
+// 		if (check_philosopher_death(data))
+// 			break ;
+// 		if (check_all_philosophers_fed(data))
+// 			break ;
+// 		ft_usleep(1);
+// 	}
+// 	return (NULL);
+// }
+
 void	*monitor_routine(void *arg)
 {
 	t_data  *data = (t_data *)arg;
@@ -73,7 +88,7 @@ void	*monitor_routine(void *arg)
 			break ;
 		if (check_all_philosophers_fed(data))
 			break ;
-		ft_usleep(1);
+		ft_usleep(5);  // Cambiar de 1ms a 5ms
 	}
 	return (NULL);
 }
