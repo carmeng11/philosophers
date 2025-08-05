@@ -26,7 +26,7 @@ void	print_death(t_philo *philo)
 
 static void	handle_one_philo(t_philo *philo)
 {
-	print_status(philo, THINKING);
+	//print_status(philo, THINKING);
 	pthread_mutex_lock(philo->l_fork);
 	print_status(philo, TAKEN_FORK);
 	ft_usleep(philo->data->time_to_die + 1);
