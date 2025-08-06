@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/06 18:55:16 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:05:03 by cagomez-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -28,9 +16,7 @@
 # define DIED "died"
 
 // Definiciones parseo
-# define ERROR_ARG \
-"Uso: ./philo num_philosophers time_to_die time_to_eat \
- time_to_sleep [num_times_to_eat]"
+# define ERROR_ARG "Uso: ./philo num_philosophers time_to_die time_to_eat time_to_sleep [num_times_to_eat]"
 # define ERROR_ARG_POS "Error: Todos los argumentos deben ser números positivos"
 # define ERROR_MEAL_LOCK "Error: No se pudo inicializar meal_lock para filósofo"
 # define ERROR_MUTEX "Error: No se pudo inicializar mutex de tenedor"
@@ -43,10 +29,11 @@ typedef struct s_philo
 	int					id;
 	pthread_t			thread_id;
 	pthread_mutex_t		meal_lock;
-	pthread_mutex_t		*l_fork;
-	pthread_mutex_t		*r_fork;
-	long long			last_meal_time;
-	int					meals_eaten;
+	// Mutex para proteger last_meal_time y meals_eaten
+	pthread_mutex_t *l_fork;  // Puntero al tenedor izquierdo
+	pthread_mutex_t *r_fork;  // Puntero al tenedor derecho
+	long long last_meal_time; // Protegido por meal_lock
+	int meals_eaten;          // Protegido por meal_lock
 	t_data				*data;
 }						t_philo;
 
@@ -58,10 +45,10 @@ typedef struct s_data
 	long long			time_to_sleep;
 	int					max_meals;
 	long long			start_time;
-	int					is_game_over;
+	int is_game_over; // Protegido por game_mutex
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		print_mutex;
-	pthread_mutex_t		game_mutex; // Para proteger is_game_over
+	pthread_mutex_t game_mutex; // Para proteger is_game_over
 	t_philo				*philosophers;
 }						t_data;
 
