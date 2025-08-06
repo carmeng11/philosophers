@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:06:58 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/05 17:12:20 by carmen           ###   ########.fr       */
+/*   Updated: 2025/08/06 18:14:54 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	take_forks(t_philo *philo)
 {
-	// Evitar deadlock: el filósofo con ID menor toma primero el tenedor con índice menor
 	if (philo->l_fork < philo->r_fork)
 	{
 		pthread_mutex_lock(philo->l_fork);
@@ -47,25 +46,18 @@ void	eat(t_philo *philo)
 	ft_usleep(philo->data->time_to_eat);
 }
 
-// void	sleep_and_think(t_philo *philo)
-// {
-// 	print_status(philo, SLEEPING);
-// 	usleep(philo->data->time_to_sleep * 1000);
-// 	//ft_usleep(philo->data->time_to_sleep);
-// 	print_status(philo, THINKING);
-// }
-
 void	sleep_and_think(t_philo *philo)
 {
+	long	t_think;
+
 	print_status(philo, SLEEPING);
-	ft_usleep(philo->data->time_to_sleep);  // Cambiar esta línea
+	ft_usleep(philo->data->time_to_sleep);
 	print_status(philo, THINKING);
-	
-	// Agregar espera inteligente para casos impares
 	if (philo->data->num_philo % 2 != 0)
 	{
-		long t_think = philo->data->time_to_eat * 2 - philo->data->time_to_sleep;
+		t_think = philo->data->time_to_eat * 2
+			- philo->data->time_to_sleep;
 		if (t_think > 0)
-			ft_usleep(t_think / 2);  // Ajuste más conservador que 0.42
+			ft_usleep(t_think / 2);
 	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/06 18:25:37 by cagomez-          #+#    #+#             */
+/*   Updated: 2025/08/06 18:27:20 by cagomez-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	print_status(t_philo *philo, char *status_msg)
@@ -5,14 +17,14 @@ void	print_status(t_philo *philo, char *status_msg)
 	long long	current_time;
 
 	pthread_mutex_lock(&philo->data->print_mutex);
-	// Solo imprimir si el juego no ha terminado
 	if (!is_game_over(philo->data))
 	{
-		current_time = get_current_time_ms() - philo->data->start_time;//El mensaje saca el tiempo actual menos el tiempo de inicio del juego, para que sea relativo al inicio del juego
+		current_time = get_current_time_ms() - philo->data->start_time;
 		printf("%lld %d %s\n", current_time, philo->id, status_msg);
 	}
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
+
 void	print_death(t_philo *philo)
 {
 	long long	current_time;
@@ -23,10 +35,8 @@ void	print_death(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-
 static void	handle_one_philo(t_philo *philo)
 {
-	//print_status(philo, THINKING);
 	pthread_mutex_lock(philo->l_fork);
 	print_status(philo, TAKEN_FORK);
 	ft_usleep(philo->data->time_to_die + 1);
@@ -50,30 +60,13 @@ static void	philo_loop(t_philo *philo)
 	}
 }
 
-// void	*philo_routine(void *arg)
-// {
-// 	t_philo *philo = (t_philo *)arg;
-
-// 	if (philo->id % 2 == 0)
-// 		ft_usleep(1);	// Para evitar que todos los filósofos intenten comer al mismo tiempo
-// 		//ft_usleep(philo->data->time_to_eat / 2); // Para evitar que todos los filósofos intenten comer al mismo tiempo
-// 	if (philo->data->num_philo == 1)
-// 	{
-// 		handle_one_philo(philo);
-// 		return (NULL);
-// 	}
-// 	philo_loop(philo);
-// 	return (NULL);
-// }
-
 void	*philo_routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg;
+	t_philo	*philo;
 
-	// Mejor sincronización inicial
+	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);  // Más tiempo para pares
-	
+		ft_usleep(philo->data->time_to_eat / 2);
 	if (philo->data->num_philo == 1)
 	{
 		handle_one_philo(philo);

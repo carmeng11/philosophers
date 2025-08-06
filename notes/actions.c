@@ -6,7 +6,7 @@
 /*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:06:58 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/30 20:08:03 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:05:05 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,20 @@ void	sleep_and_think(t_philo *philo)
 	//Se multiplica por 1000 porque usleep espera microsegundos. Nota: Aquí se usa usleep 
 	//directamente en lugar de ft_usleep, lo cual podría ser inconsistente con el resto del código.
 	print_status(philo, THINKING);
+}
+//Funcion sleep_and_think mejorada para solucionar caso 3 110 103 103
+
+void	sleep_and_think(t_philo *philo)
+{
+	print_status(philo, SLEEPING);
+	ft_usleep(philo->data->time_to_sleep);  // Cambiar esta línea
+	print_status(philo, THINKING);
+	
+	// Agregar espera inteligente para casos impares
+	if (philo->data->num_philo % 2 != 0)
+	{
+		long t_think = philo->data->time_to_eat * 2 - philo->data->time_to_sleep;
+		if (t_think > 0)
+			ft_usleep(t_think / 2);  // Ajuste más conservador que 0.42
+	}
 }

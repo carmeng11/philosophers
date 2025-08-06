@@ -7,13 +7,16 @@ static int check_philosopher_death(t_data *data)
     long long current_time;
     long long last_meal;
 
-    while (i < data->num_philo)
+    while (i < data->num_philo)//bucle para verificar cada filósofo uno a uno
     {
         current_time = get_current_time_ms();//tiempo actual que se obtiene para cada verificación
         
         // Leer last_meal_time de forma segura
         pthread_mutex_lock(&data->philosophers[i].meal_lock);
         last_meal = data->philosophers[i].last_meal_time;//copia local del tiempo de la última comida
+        //el last_meal_time se actualiza en la funcion eat (philo->last_meal_time = get_current_time_ms();)
+        //Cada vez que un filósofo empieza a comer actualiza su last_meal_time con el timepo actual. 
+        //Esto marca cuando fue su última comida.
         pthread_mutex_unlock(&data->philosophers[i].meal_lock);
         
         // Verificar si el filósofo ha muerto
@@ -75,7 +78,7 @@ void *monitor_routine(void *arg)
             break;
             
         // Pausa pequeña para no sobrecargar CPU
-        ft_usleep(1);
+        ft_usleep(5);//originalmente estaba a 1 pero se cambió para el caso 3 310 103 103
     }
     
     return (NULL);

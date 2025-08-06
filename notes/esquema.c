@@ -38,10 +38,7 @@ validate_args()
 ├── Verifica que el número de filósofos no sea > 200
 └── Retorna 0 si todo OK, 1 si hay error
 ```
-
-### init_data(data, argv, argc)
-```
-init_data()
+parse_input(data, argv, argc)
 ├── Parsea argumentos:
 │   ├── num_philo = ft_atoi(argv[1])
 │   ├── time_to_die = ft_atoll(argv[2])
@@ -52,7 +49,11 @@ init_data()
 ├── Inicializa variables de control:
 │   ├── is_game_over = 0
 │   └── start_time = get_current_time_ms()
-│
+
+
+### init_data(data, argv, argc)
+```
+init_data()
 ├── Asigna memoria:
 │   ├── malloc() para array de filósofos
 │   └── malloc() para array de tenedores (mutexes)
@@ -62,15 +63,6 @@ init_data()
 │   ├── pthread_mutex_init(&print_mutex)
 │   └── pthread_mutex_init(&game_mutex)
 │
-└── Configura cada filósofo:
-    ├── id = i + 1
-    ├── last_meal_time = start_time
-    ├── meals_eaten = 0
-    ├── data = puntero a estructura principal
-    ├── l_fork = &forks[i] (tenedor izquierdo)
-    ├── r_fork = &forks[(i+1) % num_philo] (tenedor derecho)
-    └── pthread_mutex_init(&meal_lock)
-```
 
 **Detalles importantes:**
 - Los tenedores son mutexes compartidos entre filósofos adyacentes
@@ -82,6 +74,16 @@ init_data()
 ## 3. CREACIÓN DE HILOS
 
 ### create_philosophers(data)
+
+└── Configura cada filósofo:
+    ├── id = i + 1
+    ├── last_meal_time = start_time
+    ├── meals_eaten = 0
+    ├── data = puntero a estructura principal
+    ├── l_fork = &forks[i] (tenedor izquierdo)
+    ├── r_fork = &forks[(i+1) % num_philo] (tenedor derecho)
+    └── pthread_mutex_init(&meal_lock)
+```
 ```
 create_philosophers()
 └── Loop para cada filósofo:

@@ -6,7 +6,7 @@
 /*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:14:02 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/28 19:15:18 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:27:47 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,3 @@ long long	ft_atoll(char *str)
 	}
 	return (sign * result);
 }
-

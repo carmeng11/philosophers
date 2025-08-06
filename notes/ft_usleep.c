@@ -9,7 +9,6 @@ void	ft_usleep(long long time_ms)
         usleep(100);
 }
 
-Por supuesto.
 La función ft_usleep sirve para pausar la ejecución durante un tiempo 
 determinado en milisegundos (ms), pero de forma más precisa que usando directamente usleep.
 
