@@ -6,7 +6,7 @@
 /*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:25:37 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/06 18:27:20 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:55:53 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	philo_loop(t_philo *philo)
 {
 	while (!is_game_over(philo->data))
 	{
-		print_status(philo, THINKING);
+		//print_status(philo, THINKING);
 		take_forks(philo);
 		if (is_game_over(philo->data))
 		{

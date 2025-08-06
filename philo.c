@@ -245,7 +245,7 @@ void	print_death(t_philo *philo)
 
 static void	handle_one_philo(t_philo *philo)
 {
-	print_status(philo, THINKING);
+	//print_status(philo, THINKING);
 	pthread_mutex_lock(philo->l_fork);
 	print_status(philo, TAKEN_FORK);
 	ft_usleep(philo->data->time_to_die + 1);
@@ -271,11 +271,11 @@ static void	philo_loop(t_philo *philo)
 
 void	*philo_routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg;
+	t_philo	*philo;
 
+	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		ft_usleep(1);	// Para evitar que todos los filósofos intenten comer al mismo tiempo
-		//ft_usleep(philo->data->time_to_eat / 2); // Para evitar que todos los filósofos intenten comer al mismo tiempo
+		ft_usleep(philo->data->time_to_eat / 2);
 	if (philo->data->num_philo == 1)
 	{
 		handle_one_philo(philo);
@@ -340,15 +340,16 @@ static int	check_all_philosophers_fed(t_data *data)
 
 void	*monitor_routine(void *arg)
 {
-	t_data  *data = (t_data *)arg;
+	t_data	*data;
 
+	data = (t_data *)arg;
 	while (!is_game_over(data))
 	{
 		if (check_philosopher_death(data))
 			break ;
 		if (check_all_philosophers_fed(data))
 			break ;
-		ft_usleep(1);
+		ft_usleep(5);
 	}
 	return (NULL);
 }
@@ -450,8 +451,16 @@ void	eat(t_philo *philo)
 
 void	sleep_and_think(t_philo *philo)
 {
+	long	t_think;
+
 	print_status(philo, SLEEPING);
-	usleep(philo->data->time_to_sleep * 1000);
-	//ft_usleep(philo->data->time_to_sleep);
+	ft_usleep(philo->data->time_to_sleep);
 	print_status(philo, THINKING);
+	if (philo->data->num_philo % 2 != 0)
+	{
+		t_think = philo->data->time_to_eat * 2
+			- philo->data->time_to_sleep;
+		if (t_think > 0)
+			ft_usleep(t_think / 2);
+	}
 }
