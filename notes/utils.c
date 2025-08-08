@@ -6,7 +6,7 @@
 /*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:14:02 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/30 20:33:04 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:39:23 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,24 @@ long long	ft_atoll(char *str)
 	return (sign * result);
 }
 
+
+Importancia de estas funciones:
+Patrón Thread-Safe:
+Ambas funciones implementan el patrón clásico de acceso seguro a variables compartidas:
+
+Lock → Read/Write → Unlock
+Minimiza el tiempo que el mutex está bloqueado
+Previene condiciones de carrera
+
+Uso en el contexto del proyecto:
+
+is_game_over() se llama constantemente en los bucles de los filósofos para verificar si deben continuar
+set_game_over() se llama desde el monitor cuando detecta una condición de finalización
+
+Eficiencia:
+
+Se usa una variable local (result) para evitar mantener el mutex bloqueado durante el retorno
+El acceso a la flag es muy rápido, minimizando la contención entre hilos
+
+Estas funciones son fundamentales para la terminación ordenada de todos los hilos cuando la simulación debe finalizar, evitando que algunos filósofos continúen ejecutándose mientras otros ya han terminado.
+¿Te queda claro el propósito y funcionamiento de estas funciones de control del estado del juego?

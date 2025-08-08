@@ -6,7 +6,7 @@
 /*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:06:58 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/06 18:05:05 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:51:23 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,9 @@ void	sleep_and_think(t_philo *philo)
 			ft_usleep(t_think / 2);  // Ajuste más conservador que 0.42
 	}
 }
+//time_to_eat * 2: El tiempo que tardan DOS filósofos en comer
+//- time_to_sleep: Menos el tiempo que ya duerme
+// t_thing / 2  Factor de ajuste para optimizar el timing
+
+//Resultado: El tiempo de espera se calcula automáticamente según los parámetros del programa, no es un valor fijo hardcodeado.
+// Esto hace que la sincronización sea más precisa para cualquier combinación de argumentos.
