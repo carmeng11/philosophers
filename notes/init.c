@@ -14,9 +14,9 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->is_game_over = 0;
 	data->start_time = get_current_time_ms();
 	//Asignar memoria
-	data->philosophers = malloc(sizeof(t_philo) * data->num_philo);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philo);
-	if (!data->philosophers || !data->forks)
+	data->philosophers = malloc(sizeof(t_philo) * data->num_philo); //malloc para array de filósofos
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philo); //malloc para array de tenedores (mutexes)
+    	if (!data->philosophers || !data->forks)
 	{
 		printf("Error: No se pudo asignar memoria\n");
 		return (1);

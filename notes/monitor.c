@@ -31,6 +31,12 @@ static int check_philosopher_death(t_data *data)
     return (0);
 }
 
+¿Por qué está bien hacer la comprobación FUERA del mutex?
+Principio de minimizar tiempo de bloqueo: Solo bloqueas para la operación crítica (leer last_meal_time)
+Los datos copiados son seguros: Una vez que copias last_meal a una variable local, ya no necesitas el mutex. 
+Evitas deadlocks: print_death() usa print_mutex, si lo hicieras dentro de meal_lock podrías crear dependencias 
+circularesMejor rendimiento: Reduces el tiempo que cada filósofo tiene que esperar para acceder a su meal_lock
+
 static int check_all_philosophers_fed(t_data *data)
 {
     int i = 0;

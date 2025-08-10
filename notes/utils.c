@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:14:02 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/08 18:39:23 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:51:30 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+//Origen: El tiempo se cuenta desde 1970 (Epoch Unix).
+//Precisión: Milisegundos.
 
-long long	get_current_time_ms(void)
+long long   get_current_time_ms(void)
 {
-	struct timeval	tv;
+    struct timeval  tv;
+    //Declara una estructura que tiene dos campos:
+    //tv_sec: segundos desde 1970-01-01 00:00:00 UTC.
+    //tv_usec: microsegundos adicionales (1 segundo = 1,000,000 microsegundos).
 
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+    gettimeofday(&tv, NULL);//Llena la estructura tv con el tiempo actual.
+    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 void	ft_usleep(long long time_ms)
@@ -60,6 +65,28 @@ void	set_game_over(t_data *data)
 	pthread_mutex_unlock(&data->game_mutex);//Libera el mutex inmediatamente después de escribir el valor, 
 	//permitiendo que otros hilos puedan leer el nuevo estado.
 }
+Importancia de estas funciones:
+Patrón Thread-Safe:
+Ambas funciones implementan el patrón clásico de acceso seguro a variables compartidas:
+
+Lock → Read/Write → Unlock
+Minimiza el tiempo que el mutex está bloqueado
+Previene condiciones de carrera
+
+Uso en el contexto del proyecto:
+
+is_game_over() se llama constantemente en los bucles de los filósofos para verificar si deben continuar
+set_game_over() se llama desde el monitor cuando detecta una condición de finalización
+
+Eficiencia:
+
+Se usa una variable local (result) para evitar mantener el mutex bloqueado durante el retorno
+El acceso a la flag es muy rápido, minimizando la contención entre hilos
+
+Estas funciones son fundamentales para la terminación ordenada de todos los hilos cuando la simulación
+debe finalizar, evitando que algunos filósofos continúen ejecutándose mientras otros ya han terminado.
+
+
 
 long long	ft_atoll(char *str)
 {
@@ -82,24 +109,9 @@ long long	ft_atoll(char *str)
 	return (sign * result);
 }
 
+//con ft_atoll si pongo un string me va a dar 0 por tanto no necesito hacer una función tipo is_digit para validar los argumentos,
+// puesto que//en la función validate_args indico que si el resultado del atoll es menor o igual a 0 me retorne un error indicando
+// que los argumentos deben ser num positivos. El único caso que atoll no contempla es cuando se ponen caracteres después de los números
+//donde los descarata y si convierte a numero lo anterior, es decir si meto un parámetro 800jjj atoll no me dará error, me cogerá el 800
+//si quiero que me de error si debo ser más estricto y chequear con is_digit.
 
-Importancia de estas funciones:
-Patrón Thread-Safe:
-Ambas funciones implementan el patrón clásico de acceso seguro a variables compartidas:
-
-Lock → Read/Write → Unlock
-Minimiza el tiempo que el mutex está bloqueado
-Previene condiciones de carrera
-
-Uso en el contexto del proyecto:
-
-is_game_over() se llama constantemente en los bucles de los filósofos para verificar si deben continuar
-set_game_over() se llama desde el monitor cuando detecta una condición de finalización
-
-Eficiencia:
-
-Se usa una variable local (result) para evitar mantener el mutex bloqueado durante el retorno
-El acceso a la flag es muy rápido, minimizando la contención entre hilos
-
-Estas funciones son fundamentales para la terminación ordenada de todos los hilos cuando la simulación debe finalizar, evitando que algunos filósofos continúen ejecutándose mientras otros ya han terminado.
-¿Te queda claro el propósito y funcionamiento de estas funciones de control del estado del juego?

@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:58:13 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/28 21:03:46 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:40:15 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}
+
+int	check_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	parse_input(t_data *data, int argc, char **argv)
 {
@@ -34,7 +55,7 @@ int	validate_args(t_data *data, char **argv, int argc)
 	i = 1;
 	while (i < argc)
 	{
-		if (ft_atoll(argv[i]) <= 0)
+		if (ft_atoll(argv[i]) <= 0 || !check_digit(argv[i]))
 			return (printf("%s\n", ERROR_ARG_POS), 1);
 		i++;
 	}

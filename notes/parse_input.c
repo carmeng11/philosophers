@@ -9,7 +9,9 @@ int	parse_input(t_data *data, int argc, char **argv)
 		data->max_meals = ft_atoll(argv[5]);
 	else
 		data->max_meals = -1;
-	data->is_game_over = 0;
-	data->start_time = get_current_time_ms();
+	// Inicializa variables de control del juego
+	data->is_game_over = 0; // Inicializar estado del juego
+	data->start_time = get_current_time_ms(); // Obtener el tiempo de inicio de la simulación
 	return (0);
 }
+

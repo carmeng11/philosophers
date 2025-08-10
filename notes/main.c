@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:57:02 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:57:03 by cagomez-         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:39:05 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);//es digito
+	return (0);//no es digito
+}
+
+int	check_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);// Si algún carácter NO es dígito, retorna 0
+		i++;
+	}
+	return (1); // Si todos son dígitos, retorna 1
+}
 
 int	main(int argc, char **argv)
 {

@@ -46,7 +46,7 @@ typedef struct s_data
 	int					max_meals;
 	long long			start_time;
 	int is_game_over; // Protegido por game_mutex
-	pthread_mutex_t		*forks;
+	pthread_mutex_t		*forks; //Puntero a un array de mutexes
 	pthread_mutex_t		print_mutex;
 	pthread_mutex_t game_mutex; // Para proteger is_game_over
 	t_philo				*philosophers;
