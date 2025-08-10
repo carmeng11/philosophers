@@ -6,7 +6,7 @@
 /*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:25:37 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/10 16:16:06 by carmen           ###   ########.fr       */
+/*   Updated: 2025/08/10 19:04:24 by carmen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	print_death(t_philo *philo)
 
 static void	handle_one_philo(t_philo *philo)
 {
-	//print_status(philo, THINKING);
 	pthread_mutex_lock(philo->l_fork);
 	print_status(philo, TAKEN_FORK);
 	ft_usleep(philo->data->time_to_die + 1);
@@ -48,7 +47,6 @@ static void	philo_loop(t_philo *philo)
 {
 	while (!is_game_over(philo->data))
 	{
-		//print_status(philo, THINKING);
 		take_forks(philo);
 		if (is_game_over(philo->data))
 		{

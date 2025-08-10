@@ -43,16 +43,20 @@ static int check_all_philosophers_fed(t_data *data)
     int meals_eaten;
     int all_fed = 1;
 
-    if (data->max_meals == -1)
+    if (data->max_meals == -1)//significa que no se ha especificado un número máximo de comidas (no se pasó el argumento opcional). 
+	//En ese caso, la función retorna 0 y no hace nada.
         return (0);
 
-    while (i < data->num_philo)
+    while (i < data->num_philo)// bucle para verificar cada filósofo
     {
         pthread_mutex_lock(&data->philosophers[i].meal_lock);
+		//Usa un mutex (meal_lock) para leer de forma segura el contador meals_eaten de cada filósofo
         meals_eaten = data->philosophers[i].meals_eaten;
         pthread_mutex_unlock(&data->philosophers[i].meal_lock);
         
         if (meals_eaten < data->max_meals)
+		//Si encuentra un filósofo que no ha llegado al máximo de comidas, 
+		//pone all_fed = 0 y sale del bucle.
         {
             all_fed = 0;
             break;
@@ -60,7 +64,9 @@ static int check_all_philosophers_fed(t_data *data)
         i++;
     }
     
-    if (all_fed)
+    if (all_fed)//si salió del bucle anterior son cambiar el valor de all_fed 1 es porque no encontró
+	//a nadie que tuviera menos comidad que las especificadas, entonces si el bucle lo termina es 
+	//porque todos los filósofos han comido lo que tenían que comer, y al vale 1 all_fed entra en el bucle y termian el juego
     {
         set_game_over(data);
         return (1);
