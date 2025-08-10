@@ -140,7 +140,19 @@ int	create_philosophers(t_data *data)
 		if (pthread_create(&data->philosophers[i].thread_id, NULL,
 				philo_routine, &data->philosophers[i]) != 0)
 			return (printf("%s\n %d\n", ERROR_THREAD, i), 1);
+			//Crea un nuevo hilo usando la función pthread_create.
+			//El hilo ejecutará la función philo_routine.
+			//Se le pasa como argumento la dirección del filósofo correspondiente: &data->philosophers[i].
+			//El identificador del hilo se guarda en data->philosophers[i].thread_id.
+
 		i++;
 	}
 	return (0);
 }
+Resumen de inicialización de mutexes
+Forks:
+Se inicializan en init_data porque son recursos compartidos entre filósofos (array de mutexes).
+Mutex globales (print_mutex, game_mutex):
+Se inicializan en init_data porque son únicos para toda la simulación.
+meal_lock:
+Se inicializa en create_philosophers porque es un mutex individual para cada filósofo.

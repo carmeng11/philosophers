@@ -89,7 +89,60 @@ void *monitor_routine(void *arg)
     
     return (NULL);
 }
+//cambiado a esta función para el caso de 2 filósofos donde la espera debe ser más 
+//pequeña y pueda detectar la muerte a tiempo
+//Esta función se encarga de monitorizar el estado de los filósofos y detectar muertes o si todos han comido suficiente.
+//Si hay 2 filósofos y el tiempo de muerte es menor a 200, se reduce el tiempo de espera a 1 milisegundo para detectar muertes más rápido.
+//En otros casos, se usa un tiempo de espera de 5 milisegundos.
+//El monitor revisa periódicamente si algún filósofo ha muerto o si todos han comido el número máximo de comidas permitido.
+//Si detecta una muerte, marca el juego como terminado y muestra el mensaje de muerte del filósofo correspondiente.
+//Si todos los filósofos han comido suficientes veces, también marca el juego como terminado.
+//El monitor se ejecuta en un hilo separado y continúa hasta que se detecta una condición de finalización del juego.
+void	*monitor_routine(void *arg)
+{
+	t_data	*data;
+	int		sleep_time;
+	
+	data = (t_data *)arg;
+	if (data->num_philo <= 2 && data->time_to_die < 200)
+		sleep_time = 1;//cambiado para 2 el tiempo para que le de tiempo a detectar la muerte
+	else
+		sleep_time = 5;
+	while (!is_game_over(data))
+	{
+		if (check_philosopher_death(data))
+			break ;
+		if (check_all_philosophers_fed(data))
+			break ;
+		ft_usleep(sleep_time);
+	}
+	return (NULL);
+}
 
+Finalmente al fallar con otro caso se busca solución más generica y mas elegante para con 1 ms o 5 ms según > o < a 100 filos
+
+void	*monitor_routine(void *arg)
+{
+	t_data	*data;
+	int		sleep_time;
+	
+	data = (t_data *)arg;
+	if (data->num_philo <= 100)
+		sleep_time = 1;//cambiado para 2 el tiempo para que le de tiempo a detectar la muerte
+	else
+		sleep_time = 5;
+	while (!is_game_over(data))
+	{
+		if (check_philosopher_death(data))
+			break ;
+		if (check_all_philosophers_fed(data))
+			break ;
+		ft_usleep(sleep_time);
+	}
+	return (NULL);
+}
+
+EXPLICACION PORQUE ES NECESARIO EL MUTEX EN MEAL_LOCK
 Problema sin mutex:
 Imagina esta situación SIN el mutex:
 
