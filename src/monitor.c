@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:09:47 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/10 18:32:48 by carmen           ###   ########.fr       */
+/*   Updated: 2025/08/11 17:52:59 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	*monitor_routine(void *arg)
 {
 	t_data	*data;
 	int		sleep_time;
-	
+
 	data = (t_data *)arg;
 	if (data->num_philo <= 100)
-		sleep_time = 1;//cambiado para 2 el tiempo para que le de tiempo a detectar la muerte
+		sleep_time = 1;
 	else
 		sleep_time = 5;
 	while (!is_game_over(data))
@@ -83,5 +83,3 @@ void	*monitor_routine(void *arg)
 	}
 	return (NULL);
 }
-
-

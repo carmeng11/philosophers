@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: carmen <carmen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cagomez- <cagomez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:06:58 by cagomez-          #+#    #+#             */
-/*   Updated: 2025/08/10 16:08:53 by carmen           ###   ########.fr       */
+/*   Updated: 2025/08/11 17:55:31 by cagomez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	take_forks(t_philo *philo)
 		print_status(philo, TAKEN_FORK);
 	}
 }
-
-
 
 void	drop_forks(t_philo *philo)
 {
