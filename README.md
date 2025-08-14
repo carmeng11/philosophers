@@ -1210,7 +1210,7 @@ Por ejemplo: `./philo 5 0 200 200` no hay que gestionarlo.
 
 3. **Matemáticamente, 0 NO es positivo**: Los números positivos son > 0, no ≥ 0
 
-**Tu implementación es correcta:**
+**La implementación es correcta:**
 
 ```c
 if (ft_atoll(argv[i]) <= 0) // Correcto: 0 no es positivo
