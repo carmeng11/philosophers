@@ -1240,7 +1240,7 @@ if (ft_atoll(argv[i]) <= 0) // Correcto: 0 no es positivo
 
 - Si te preguntan por el caso `5 0 200 200`, explica que "0 no es un número positivo matemáticamente"
 - Si mencionan los 60ms, di que "esa restricción no aparece en el subject, solo en la hoja de evaluación"
-- Tu implementación es técnicamente correcta según los requisitos oficiales
+- La implementación es técnicamente correcta según los requisitos oficiales
 
 ---
 
