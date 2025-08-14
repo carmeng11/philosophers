@@ -1244,13 +1244,4 @@ if (ft_atoll(argv[i]) <= 0) // Correcto: 0 no es positivo
 
 ---
 
-## Conclusión
 
-Este documento cubre todos los aspectos importantes del proyecto de los filósofos, desde los conceptos básicos de concurrencia y mutexes hasta la implementación específica y casos de prueba. La implementación presentada resuelve los principales problemas:
-
-- **Prevención de deadlocks** mediante ordenamiento de recursos
-- **Detección precisa de muerte** con un hilo monitor dedicado
-- **Sincronización correcta** para evitar condiciones de carrera
-- **Terminación limpia** del programa en todos los casos
-
-El código está diseñado para ser robusto, eficiente y cumplir con todos los requisitos del subject de 42.
