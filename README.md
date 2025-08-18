@@ -545,15 +545,13 @@ Este diseño evita condiciones de carrera, deadlocks y garantiza que el programa
 
 ```c
 // En create_philosophers()
-for (i = 0; i < data->num_philo; i++)
-{
-    if (pthread_create(&data->philosophers[i].thread_id, NULL, 
-                       philo_routine, &data->philosophers[i]) != 0)
-    {
-        printf("Error: Failed to create thread for philosopher %d\n", i + 1);
-        return (1);
-    }
-}
+while (i < data->num_philo)
+	{
+		if (pthread_create(&data->philosophers[i].thread_id, NULL,
+				philo_routine, &data->philosophers[i]) != 0)
+			return (printf("%s\n %d\n", ERROR_THREAD, i), 1);
+		i++;
+	}
 ```
 
 **Explicación:** Se crea exactamente un hilo por cada filósofo usando `pthread_create()`. Cada filósofo tiene su propio `thread_id` almacenado en la estructura `t_philo`, y todos ejecutan la misma función `philo_routine` pero con diferentes argumentos (cada uno recibe un puntero a su estructura `t_philo` específica).
@@ -569,11 +567,12 @@ if (!data->forks)
     return (1);
 
 // Inicialización de tenedores
-for (i = 0; i < data->num_philo; i++)
-{
-    if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-        return (1);
-}
+while (i < data->num_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (printf("%s\n %d\n", ERROR_MUTEX, i), 1);
+		i++;
+	}
 
 // En create_philosophers() - asignación de tenedores
 philosophers[i].l_fork = &data->forks[i];
